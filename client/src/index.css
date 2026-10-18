@@ -1,0 +1,125 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================================================================
+   Claymorphism design tokens
+   Neutral ramp is exposed as space-separated "R G B" triples so Tailwind
+   can apply alpha (rgb(var(--c-slate-900) / <alpha-value>)). The ramp is
+   INVERTED for dark mode, so utilities like bg-slate-50 (surfaces),
+   text-slate-900 (headings) and text-slate-500 (muted) flip automatically.
+   =================================================================== */
+:root,
+.light {
+  --c-slate-50: 251 250 255;
+  --c-slate-100: 244 241 255; /* page background — soft lilac (#F4F1FF) */
+  --c-slate-200: 233 228 248;
+  --c-slate-300: 214 206 236;
+  --c-slate-400: 178 168 208;
+  --c-slate-500: 139 128 176;
+  --c-slate-600: 108 96 148;
+  --c-slate-700: 80 68 116;
+  --c-slate-800: 56 46 88;
+  --c-slate-900: 38 30 64;
+  --c-slate-950: 24 18 42;
+
+  /* Puffy double shadows: outer depth + inner highlight/shade. */
+  --clay: 0 10px 24px rgba(93, 75, 138, 0.2), inset 0 2px 3px rgba(255, 255, 255, 0.85),
+    inset 0 -6px 10px rgba(120, 100, 170, 0.12);
+  --clay-sm: 0 6px 14px rgba(93, 75, 138, 0.16), inset 0 1px 2px rgba(255, 255, 255, 0.8),
+    inset 0 -3px 6px rgba(120, 100, 170, 0.1);
+  --clay-lg: 0 18px 40px rgba(93, 75, 138, 0.24), inset 0 3px 4px rgba(255, 255, 255, 0.9),
+    inset 0 -8px 14px rgba(120, 100, 170, 0.14);
+  --clay-inset: inset 0 4px 8px rgba(120, 100, 170, 0.2), inset 0 -2px 3px rgba(255, 255, 255, 0.7);
+  --clay-press: 0 3px 8px rgba(93, 75, 138, 0.18), inset 0 3px 6px rgba(120, 100, 170, 0.22);
+}
+
+.dark {
+  --c-slate-50: 52 44 80; /* raised card surface */
+  --c-slate-100: 40 32 62; /* page background (dark clay) */
+  --c-slate-200: 62 52 94;
+  --c-slate-300: 80 68 118;
+  --c-slate-400: 110 98 152;
+  --c-slate-500: 150 138 186;
+  --c-slate-600: 180 170 210;
+  --c-slate-700: 204 196 230;
+  --c-slate-800: 226 221 244;
+  --c-slate-900: 240 237 250;
+  --c-slate-950: 250 249 255;
+
+  --clay: 0 10px 24px rgba(0, 0, 0, 0.5), inset 0 2px 3px rgba(255, 255, 255, 0.06),
+    inset 0 -6px 10px rgba(0, 0, 0, 0.35);
+  --clay-sm: 0 6px 14px rgba(0, 0, 0, 0.45), inset 0 1px 2px rgba(255, 255, 255, 0.05),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.3);
+  --clay-lg: 0 18px 40px rgba(0, 0, 0, 0.55), inset 0 3px 4px rgba(255, 255, 255, 0.07),
+    inset 0 -8px 14px rgba(0, 0, 0, 0.4);
+  --clay-inset: inset 0 4px 8px rgba(0, 0, 0, 0.5), inset 0 -2px 3px rgba(255, 255, 255, 0.05);
+  --clay-press: 0 3px 8px rgba(0, 0, 0, 0.4), inset 0 3px 6px rgba(0, 0, 0, 0.45);
+}
+
+@layer base {
+  body {
+    @apply bg-slate-100 text-slate-800 font-body antialiased;
+    min-height: 100vh;
+    /* Subtle pastel light-source glows for the clay atmosphere. */
+    background-image: radial-gradient(at 12% 8%, rgba(253, 188, 180, 0.18), transparent 42%),
+      radial-gradient(at 88% 6%, rgba(173, 216, 230, 0.16), transparent 42%),
+      radial-gradient(at 78% 92%, rgba(152, 255, 152, 0.14), transparent 45%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display text-slate-900;
+  }
+  /* Consistent focus ring in the brand hue. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-grape-400/70 ring-offset-2 ring-offset-slate-100;
+  }
+}
+
+@layer components {
+  .clay-card {
+    @apply bg-slate-50 rounded-clay shadow-clay;
+  }
+  .clay-card-lg {
+    @apply bg-slate-50 rounded-clay-lg shadow-clay-lg;
+  }
+
+  /* Base button: puffy, springy, presses in on :active. */
+  .clay-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-clay-sm px-5 py-2.5
+      font-display font-bold text-slate-800 bg-slate-50 shadow-clay
+      transition-all duration-150 ease-spring select-none
+      hover:-translate-y-0.5 active:translate-y-0 active:shadow-clay-press
+      disabled:opacity-50 disabled:cursor-not-allowed disabled:translate-y-0;
+  }
+  .clay-btn-primary {
+    @apply text-white bg-gradient-to-br from-grape-400 to-grape-600;
+  }
+  .clay-btn-peach {
+    @apply text-peach-700 bg-gradient-to-br from-peach-200 to-peach-300;
+  }
+  .clay-btn-mint {
+    @apply text-mint-700 bg-gradient-to-br from-mint-200 to-mint-300;
+  }
+  .clay-btn-sky {
+    @apply text-sky-700 bg-gradient-to-br from-sky-200 to-sky-300;
+  }
+  .clay-btn-ghost {
+    @apply bg-transparent shadow-none text-slate-600 hover:bg-slate-200/60 hover:-translate-y-0;
+  }
+
+  .clay-input {
+    @apply w-full rounded-clay-sm bg-slate-100 px-4 py-2.5 text-slate-800 shadow-clay-inset
+      placeholder:text-slate-400 border border-transparent
+      focus:border-grape-300 focus:outline-none;
+  }
+
+  .clay-chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold
+      bg-slate-100 text-slate-600 shadow-clay-sm;
+  }
+
+  .clay-inset {
+    @apply bg-slate-100 rounded-clay shadow-clay-inset;
+  }
+}
